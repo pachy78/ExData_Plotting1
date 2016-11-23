@@ -8,15 +8,16 @@ consumption <- read.table(file="touse.txt",header = TRUE, "sep"=";",as.is = TRUE
 consumption$FullDate <- strptime(paste(consumption$Date,consumption$Time), 
                                  format="%d/%m/%Y %H:%M:%S")
 
+#Creating the png file
+if(!file.exists("plots")) {dir.create("plots")}
+png(filename = "./plots/plot1.png",width = 480, height = 480)
 
 #Creating the histogram
 with(consumption,hist(Global_active_power,col="red",main = "Global Active Power",
                       xlab="Global Active Power (kilowatts)"))
-
-#Adding the plot name
-mtext("Plot 1", outer = FALSE, side=3,cex=1.2, line = 3)
-
-#Creating the png file
-if(!file.exists("plots")) {dir.create("plots")}
-dev.copy(png, file = "./plots/plot1.png",width = 480, height = 480)
+#Closing the conection
 dev.off()
+
+
+#Removing the data set from memory
+rm(consumption)

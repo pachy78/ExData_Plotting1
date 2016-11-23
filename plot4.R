@@ -7,9 +7,12 @@ consumption <- read.table(file="touse.txt",header = TRUE, "sep"=";",as.is = TRUE
 consumption$FullDate <- strptime(paste(consumption$Date,consumption$Time), 
                                  format="%d/%m/%Y %H:%M:%S")
 
+#Creating the png file
+if(!file.exists("plots")) {dir.create("plots")}
+png(filename = "./plots/plot4.png",width = 480, height = 480)
+
 #Creating the 4 graphs
 #Parameters
-
 par(mfrow=c(2,2))
 
 
@@ -38,17 +41,11 @@ legend("topright",pch="_", col = c("black","red","blue"),
 with(consumption,plot(FullDate,Global_reactive_power,type="l", 
                       xlab="datetime"))
 
-#Adding a Header and the Plot Name
-mtext("Plot 4",outer = TRUE, line = -1, cex=1.2)
-mtext("Various Measures for the electric power consumption in one household ",
-      outer = TRUE, line = -3, cex=1)
-
-
-#Creating the png file
-if(!file.exists("plots")) {dir.create("plots")}
-dev.copy(png, file = "./plots/plot4.png",width = 480, height = 480)
-dev.off()
-
-#Making mfrow of 1 column and 1 row
+#Resetting the parameters
 (par(mfrow=c(1,1)))
 
+#Closing the conection
+dev.off()
+
+#Removing the data set from memory
+rm(consumption)
